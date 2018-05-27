@@ -32,6 +32,12 @@ public class PayPalController {
         return "index.html";
     }
 
+    @RequestMapping(value="/paypal/webhook")
+    @ResponseBody
+    public String webhook(){
+        return "{}";
+    }
+
     /**
      * 创建支付订单
      * @return

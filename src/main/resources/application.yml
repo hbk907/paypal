@@ -1,2 +1,7 @@
 server:
-              prot: 8080
+      prot: 8080
+      ssl:
+          key-password: 123456
+          key-store-type: JKS
+          key-alias: tomcat
+          key-store: .keystore
