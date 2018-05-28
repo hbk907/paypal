@@ -1,9 +1,9 @@
 package com.example.paypal.paypal;
 
+import com.paypal.api.payments.CreditCard;
 import com.paypal.api.payments.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 
 @Controller
 //@RequestMapping(value="/paypal")
@@ -21,8 +19,9 @@ public class PayPalController {
     @Autowired
     public PayPalService paypalService;
     @Autowired
-    public HttpServletRequest request;
-
+    public HttpServletRequest req;
+    @Autowired(required=false)
+    public HttpServletResponse resp;
     /**
      * 登陆首页
      * @return
@@ -34,7 +33,13 @@ public class PayPalController {
 
     @RequestMapping(value="/paypal/webhook")
     @ResponseBody
-    public String webhook(){
+    public String webhook() {
+        try {
+            boolean result = WebhookUtil.validateReceivedEvent(req);
+        } catch (Exception e) {
+            e.printStackTrace();
+//            ResultPrinter.addResult(req, resp, "Webhook Validated:  ", CreditCard.getLastRequest(), null, e.getMessage());
+        }
         return "{}";
     }
 
